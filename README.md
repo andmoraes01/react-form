@@ -13,8 +13,6 @@ In any system, there are validations both on the client-side and the server-side
 
 ## Accessing the Application
 
-The application can be accessed through the following link: [link_here](https://www.example.com)
-
 In this application, you can fill out the fields "name," "email," and "date of birth." Each field is thoroughly validated, and if it does not meet the expected format, an error message is displayed to alert the user to correct the input.
 
 ## How to Run
