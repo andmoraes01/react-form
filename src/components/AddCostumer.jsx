@@ -1,35 +1,33 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { ValidateField } from '../components/ValidateField'
+import * as yup from 'yup';
 
 const AddCostumer = () => {
+
+  const dataMinima = new Date();
+  dataMinima.setFullYear(dataMinima.getFullYear() - 18);
+
+  const schema = yup.object({
+    name: yup.string()
+      .required('Campo obrigatório. Favor informar o Nome.')
+      .min(10, 'O nome deve conter no mínimo 10 caracteres.')
+      .max(30, 'O nome deve conter no máximo 30 caracteres.'),
+    email: yup.string()
+      .required('Campo obrigatório. Favor informar o Email.')
+      .email('O email é inválido !'),
+    birth: yup.date()
+      .required('Campo obrigatório. Favor informar a Data de nascimento.')
+      .max(dataMinima, 'Data inválida! É necessário possuir mais que 18 anos para se cadastrar.')
+  });
+
   return (
     <>
       <h1>Cadastro de Clientes</h1>
 
       <Formik
-        initialValues={
-          { name: '', email: '', birth: '' }
-        }
-        validate={(values) => {
-          const errors = {};
-          if (!values.name) {
-            errors.name = "Campo obrigatório. Favor informar o Nome."
-          }
-          if (!values.email) {
-            errors.email = "Campo obrigatório. Favor informar o Email."
-
-          } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-            errors.email = "O email é inválido !"
-          }
-          if (!values.birth) {
-            errors.birth = "Campo obrigatório. Favor informar a Data de nascimento."
-          }
-          return errors;
-        }}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values));
-        }}
+        initialValues={{ name: '', email: '', birth: '' }}
+        validationSchema={schema}
       >
         {(props) => (
           <form onSubmit={props.handleSubmit} noValidade>
